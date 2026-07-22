@@ -716,9 +716,11 @@
       const style = getComputedStyle(element);
       const rawIsBlock = isRawBlockElement(element, style);
       const stayOriginal = element.matches(STAY_ORIGINAL_SELECTOR);
+      if (isHidden(element, style)) {
+        return;
+      }
       if (
         element.matches(EXCLUDE_SELECTOR) ||
-        isHidden(element, style) ||
         (rawIsBlock && stayOriginal)
       ) {
         if (
