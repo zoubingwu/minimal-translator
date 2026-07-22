@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Minimal Translator",
+  "version": "0.1.0",
+  "description": "Progressively translates main webpage content and places each translation below its original paragraph.",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["https://translate.googleapis.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Minimal Translator",
+    "default_popup": "popup.html"
+  }
+}
