@@ -55,6 +55,30 @@
     "math",
     "inline-math",
   ]);
+  const EXTRA_INLINE_SELECTOR = [
+    "p a span",
+    "article a span",
+    "p > span a span",
+    "a[data-testid='Link'] span",
+    ".MathJax_Preview",
+    ".MathJax",
+    "math",
+    ".highlighter--highlighted",
+    ".rw-highlight",
+    "ruby *",
+    ...(location.hostname === "github.com" ? ["g-emoji"] : []),
+  ].join(",");
+  const EXTRA_BLOCK_SELECTOR = [
+    "turbo-frame",
+    "readme-toc",
+    "#hs_cos_wrapper_post_body",
+    "ul > li",
+    "label",
+    "[class*='menu-button']",
+    "br",
+    ".xt-google-domain-link-metrics",
+    ...(location.hostname === "github.com" ? ["bdi"] : []),
+  ].join(",");
   const TRANSLATION_CLASS = "mt-translation";
   const LOADING_CLASS = "mt-loading";
   const ERROR_CLASS = "mt-error";
@@ -74,7 +98,7 @@
     "header",
     "nav",
     "footer",
-    "aside",
+    "aside:not(.note):not(.article-comments):not(.onebox)",
     "form",
     "button",
     "input",
@@ -91,10 +115,23 @@
     "pre",
     "kbd",
     "math",
+    "base",
+    "wbr",
+    "rt",
+    "rp",
+    "meta",
+    "tts-sentence",
+    "aio-code",
+    "relin-target",
+    "datetime",
     "[hidden]",
     "[aria-hidden='true']",
     "[contenteditable='true']",
     "[default-translate]",
+    ".uacc-clickable",
+    "#monica-content-root",
+    "#immersive-translate-popup",
+    "#immersive-translate-float-ball",
     ".imt-notranslate",
     ".notranslate",
     "[translate='no']",
@@ -103,7 +140,7 @@
     "[role='contentinfo']",
     "[role='menu']",
     "[role='menubar']",
-    "[role='complementary']",
+    "[role='complementary']:not(aside.note):not(aside.article-comments):not(aside.onebox)",
     "[role='alert']",
     "[role='alertdialog']",
     "[role='dialog']",
@@ -116,17 +153,29 @@
     ".enlighter-code",
     ".rc-CodeBlock",
     "[role='code']",
+    "#omni-extension",
+    ".omni-item",
+    "div[data-paste-markdown-skip]",
     "table.highlight",
     "div[class^='codeBlockContent']",
     "div[class^='codeBlockLines']",
     "div[class^='token-line']",
+    "#liuchan-window > .liuchan-container > *",
     ".material-icons",
     "material-icon",
     "i.fa",
     "i[class^='fa-']",
+    ".google-symbols",
+    "span[class^='material-symbols-']",
+    "h1 br",
+    "h2 br",
+    "h3 br",
+    "h4 br",
     "time",
     ".countdown",
     ".visuallyhidden",
+    ".pdfViewer .textLayer span[role='presentation']",
+    ".rpv-core__text-layer > span[role='presentation']",
     ".ad",
     ".ads",
     ".advertisement",
@@ -168,6 +217,118 @@
     "h1[data-component='PH_Title'] span[class*='issueNumberText']",
     "[data-testid='list-row-repo-name-and-number']",
   ];
+  const GITHUB_CONTENT_SELECTORS = [
+    "h1",
+    "[aria-label='Issues'] .markdown-title",
+    "[aria-labelledby='discussions-list'] .markdown-title",
+    "h3 .markdown-title",
+    ".markdown-body",
+    ".Layout-sidebar p",
+    "div > span.search-match",
+    "li.repo-list-item p",
+    "#responsive-meta-container p",
+    "article p",
+    "feed-container article ul li a span",
+    "feed-container article .FormControl-caption",
+    "div.repo-description p",
+    "[itemprop='description']",
+    ".integrations-auth-wrapper",
+    ".new-feed-onboarding-notice",
+    "article section[aria-label='card content'] > div > div > div > div:nth-child(2)",
+    ".js-notice h2",
+    ".js-notice p",
+    ".TimelineItem-body a span",
+    ".TimelineItem-body a div",
+    "[data-testid='commit-row-item'] h4",
+    ".font-mktg",
+    ".search-title",
+    ".search-match",
+    ".pinned-item-desc",
+    "#repo-content-turbo-frame .markdown-title",
+    "[app-name='blackbird-search'] [data-hpc='true']",
+    ".topic-box > a > p:nth-of-type(2)",
+    "[data-testid='listitem-title-link']",
+    "#repo-content-turbo-frame p",
+    "#repo-content-turbo-frame h4",
+    "[aria-label='card content'] .flex-column > div:nth-child(2)",
+    "[class*='TitleHeader']",
+    ".bpDald",
+    ".discussion-title",
+    ".copilotPreview__footer",
+    ".heading-element",
+    ".js-feed-item-component h3 a[data-hovercard-type='pull_request']",
+    "[data-testid='issue-pr-title-link']",
+    "div.user-profile-bio",
+    "div.news > div.js-notice",
+    "#memex-project-view-root a [class^='prc-Text-Text']",
+    "[class^='OverviewContent'] [class*='DirectoryRichtextContent']",
+    "[id^='pullrequestreview']",
+    "[class^='ChatMessage']",
+    "[class*='prc-FormControl'] > [class*='prc-Text']",
+    "[class*='prc-FormControl'] [class*='prc-FormControl-LabelContainer'] [class*='prc-Text']",
+    "[data-testid='beginners-playlist-section']",
+    "[data-testid='getting-started-checklist-section']",
+    "[data-testid='docs-section']",
+    "[data-testid='recommendations-section']",
+    ".feed-item-content section[data-view-component] [class='flex-1 d-flex flex-column'] div:nth-child(2)",
+    "#org-new-form",
+    ".trial-info-large",
+    ".dfd-trial__container-form",
+    "dialog-helper",
+    ".blankslate-heading",
+    ".activity-overview-box",
+    "#spaces-list",
+    "[class*='ContentView-module__serviceDescription']",
+    ".BannerDescription",
+    "copilot-user-settings",
+    "h2:has(~ copilot-user-settings)",
+    "div:has(~ copilot-user-settings)",
+    "[class='f4 color-fg-muted col-md-6 mx-auto']",
+    "[class='col-lg-9 position-relative pr-lg-5 mb-6 mr-lg-5']",
+    "[class*='IssueIndexPage-module__middlePaneGrid'] div[class='p-4 text-center rounded-2 border color-border-muted']",
+    "[class*='ModelsPlaygroundRoute-module__playgroundContainer']",
+    "article [class='f6 color-fg-muted mt-1']",
+  ];
+  const GITHUB_CONTENT_SELECTOR = GITHUB_CONTENT_SELECTORS.join(",");
+  const ADDITIONAL_CONTENT_SELECTOR = [
+    "h1",
+    "section h2",
+    "section h3",
+    "section h4",
+    "main h2",
+    "main h3",
+    "main h4",
+    ".article-title",
+    ".article-subtitle",
+    ".article_title",
+    ".article_subtitle",
+    ".article__title",
+    ".articleTitle",
+    ".Article__content",
+    ".titleLink",
+    ".summary",
+    ".headline",
+    ".page-content",
+    "aside.note",
+    "aside.article-comments",
+    "aside.onebox",
+  ].join(",");
+  const GITHUB_EXCLUDED_PATH_PATTERNS = [
+    /^\/[^/]+\/[^/]+\/settings(?:\/|$)/,
+    /^\/settings(?:\/|$)/,
+    /^\/sponsors(?:\/|$)/,
+    /^\/readme(?:\/|$)/,
+    /^\/features(?:\/|$)/,
+    /^\/codespaces(?:\/|$)/,
+    /^\/customer-stories(?:\/|$)/,
+    /^\/signup\/?$/,
+    /^\/login\/?$/,
+    /^\/marketplace(?:\/|$)/,
+    /^\/github-copilot(?:\/|$)/,
+    /^\/collections(?:\/|$)/,
+    /^\/resources\/events(?:\/|$)/,
+    /^\/pricing(?:\/|$)/,
+  ];
   const STAY_ORIGINAL_SELECTOR = [
     "code",
     "tt",
@@ -176,11 +337,62 @@
     "sup",
     "sub",
     "samp",
+    "math",
+    "semantics",
+    "mrow",
+    "mo",
+    "mfrac",
+    "msup",
+    "mi",
+    "mn",
+    "msqrt",
+    "d-math",
+    "span.katex",
+    ".math-block",
+    ".MathJax_Preview",
+    ".MathJax_Display",
+    ".math-container",
+    ".MathJax",
+    ".MathJax_SVG",
+    "math-renderer",
+    "[aria-labelledby^='MathJax-SVG']",
+    ".mwe-math-element",
+    "em[translate='no']",
+    "code[translate='no']",
+    "a[translate='no']",
+    "b[translate='no']",
+    "span.math.inline",
+    "span.math.display",
+    ".ltx_Math",
+    ".mathjax-block",
+    ".MathJax_CHTML",
+    "kbd",
+    "span.pretex-inline",
+    "span.math-inline",
+    ".reference-citations",
+    ".code",
+    "[data-test='json-editor']",
+    ".jp-CodeMirrorEditor",
+    "cds-code-snippet",
+    ".interactive-markdown__code",
+    "span.variable[translate='no']",
+    "#ace-editor",
+    "table.processedcode",
     ".issue-link",
   ].join(",");
   const EXCLUDE_SELECTOR = [
     ...COMMON_EXCLUDE_SELECTORS,
     ...(location.hostname === "github.com" ? GITHUB_EXCLUDE_SELECTORS : []),
+  ].join(",");
+  const MUTATION_EXCLUDE_SELECTOR = [
+    "span.highlighter--highlighted",
+    "span.highlighter-ext",
+    "mark",
+    "msreadoutspan",
+    "rw-highlight",
+    "web-highlight",
+    "pre",
+    ".uacc-clickable",
   ].join(",");
   let translationRun = 0;
   let activeTranslationSession = null;
@@ -206,8 +418,12 @@
         `.${TRANSLATION_CLASS}, .${LOADING_CLASS}, .${ERROR_CLASS}`,
       )
       .forEach((element) => element.remove());
+    if (isExcludedSitePage()) {
+      throw new Error("No translatable main content was found");
+    }
 
-    const paragraphs = findParagraphs();
+    const contentRoots = findContentRoots();
+    const paragraphs = findParagraphs(contentRoots);
     if (paragraphs.length === 0) {
       throw new Error("No translatable main content was found");
     }
@@ -216,27 +432,23 @@
       run,
       sourceLanguage,
       targetLanguage,
+      contentRoots,
       paragraphs: [],
       groups: new Map(),
+      seenAnchors: new Map(),
       queued: new Set(),
       flushTimer: null,
       observer: null,
+      mutationObserver: null,
+      mutationTimer: null,
+      dirtyRoots: new Set(),
+      recomputeContentRoots: false,
+      requestSequence: 0,
     };
     activeTranslationSession = session;
 
     for (const paragraph of paragraphs) {
-      const target =
-        paragraph.container instanceof Element
-          ? paragraph.container
-          : paragraph.anchor.parentElement;
-      if (!target?.isConnected) {
-        continue;
-      }
-      paragraph.status = "observed";
-      session.paragraphs.push(paragraph);
-      const group = session.groups.get(target) || [];
-      group.push(paragraph);
-      session.groups.set(target, group);
+      registerParagraph(session, paragraph);
     }
     if (session.paragraphs.length === 0) {
       activeTranslationSession = null;
@@ -270,7 +482,17 @@
     }
 
     queueParagraphs(session, initialParagraphs);
+    observePageChanges(session);
     return session.paragraphs.length;
+  }
+
+  function isExcludedSitePage() {
+    return (
+      location.hostname === "github.com" &&
+      GITHUB_EXCLUDED_PATH_PATTERNS.some((pattern) =>
+        pattern.test(location.pathname),
+      )
+    );
   }
 
   function stopTranslationSession() {
@@ -279,12 +501,302 @@
       return;
     }
     session.observer?.disconnect();
+    session.mutationObserver?.disconnect();
     if (session.flushTimer) {
       clearTimeout(session.flushTimer);
+    }
+    if (session.mutationTimer) {
+      clearTimeout(session.mutationTimer);
     }
     session.paragraphs.forEach(removeLoading);
     session.queued.clear();
     activeTranslationSession = null;
+  }
+
+  function observePageChanges(session) {
+    session.mutationObserver = new MutationObserver((mutations) => {
+      if (activeTranslationSession !== session) {
+        return;
+      }
+      const pageMutations = mutations.filter(isPageContentMutation);
+      if (pageMutations.length === 0) {
+        return;
+      }
+      markDirtyRoots(session, pageMutations);
+      if (session.mutationTimer) {
+        return;
+      }
+      session.mutationTimer = setTimeout(() => {
+        session.mutationTimer = null;
+        refreshSessionParagraphs(session);
+      }, 100);
+    });
+    session.mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: [
+        "class",
+        "style",
+        "hidden",
+        "aria-hidden",
+        "translate",
+        "contenteditable",
+        "role",
+      ],
+    });
+  }
+
+  function markDirtyRoots(session, mutations) {
+    for (const mutation of mutations) {
+      const target =
+        mutation.target.nodeType === Node.ELEMENT_NODE
+          ? mutation.target
+          : mutation.target.parentElement;
+      if (target) {
+        for (const root of session.contentRoots) {
+          if (
+            root === target ||
+            root.contains(target) ||
+            target.contains(root)
+          ) {
+            session.dirtyRoots.add(root);
+          }
+        }
+        if (mutation.type === "attributes") {
+          const revealedRoots =
+            location.hostname === "github.com"
+              ? findSiteRuleRoots(target)
+              : findAdditionalContentRoots(target);
+          for (const root of revealedRoots) {
+            if (!session.contentRoots.includes(root)) {
+              session.contentRoots.push(root);
+            }
+            session.dirtyRoots.add(root);
+          }
+          if (
+            location.hostname !== "github.com" &&
+            !session.contentRoots.some((root) => root.contains(target)) &&
+            target.matches("article, main, [role='main']")
+          ) {
+            session.recomputeContentRoots = true;
+          }
+        }
+      }
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== Node.ELEMENT_NODE) {
+          continue;
+        }
+        const addedRoots =
+          location.hostname === "github.com"
+            ? findSiteRuleRoots(node)
+            : findAdditionalContentRoots(node);
+        for (const root of addedRoots) {
+          if (!session.contentRoots.includes(root)) {
+            session.contentRoots.push(root);
+          }
+          session.dirtyRoots.add(root);
+        }
+        if (
+          location.hostname !== "github.com" &&
+          !session.contentRoots.some((root) => root.contains(node)) &&
+          (node.matches("article, main, [role='main']") ||
+            node.querySelector("article, main, [role='main']"))
+        ) {
+          session.recomputeContentRoots = true;
+        }
+      }
+    }
+  }
+
+  function isPageContentMutation(mutation) {
+    const target =
+      mutation.target.nodeType === Node.ELEMENT_NODE
+        ? mutation.target
+        : mutation.target.parentElement;
+    if (target?.closest?.(MUTATION_EXCLUDE_SELECTOR)) {
+      return false;
+    }
+    if (mutation.type === "characterData" || mutation.type === "attributes") {
+      return !isTranslatorNode(mutation.target);
+    }
+    const changedNodes = [...mutation.addedNodes, ...mutation.removedNodes];
+    const changedElements = changedNodes.filter(
+      (node) => node.nodeType === Node.ELEMENT_NODE,
+    );
+    if (
+      changedElements.length > 0 &&
+      changedElements.every(isMutationExcludedNode)
+    ) {
+      return false;
+    }
+    return changedNodes.some((node) => !isTranslatorNode(node));
+  }
+
+  function isMutationExcludedNode(node) {
+    const element =
+      node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+    return Boolean(
+      element?.matches?.(MUTATION_EXCLUDE_SELECTOR) ||
+        element?.closest?.(MUTATION_EXCLUDE_SELECTOR),
+    );
+  }
+
+  function isTranslatorNode(node) {
+    const element =
+      node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+    return Boolean(
+      element?.matches?.(
+        `.${TRANSLATION_CLASS}, .${LOADING_CLASS}, .${ERROR_CLASS}`,
+      ) ||
+        element?.closest?.(
+          `.${TRANSLATION_CLASS}, .${LOADING_CLASS}, .${ERROR_CLASS}`,
+        ),
+    );
+  }
+
+  function refreshSessionParagraphs(session) {
+    if (activeTranslationSession !== session) {
+      return;
+    }
+    if (isExcludedSitePage()) {
+      stopTranslationSession();
+      document
+        .querySelectorAll(
+          `.${TRANSLATION_CLASS}, .${LOADING_CLASS}, .${ERROR_CLASS}`,
+        )
+        .forEach((element) => element.remove());
+      return;
+    }
+
+    for (const [anchor, paragraph] of session.seenAnchors) {
+      if (anchor.isConnected) {
+        continue;
+      }
+      unregisterParagraph(session, paragraph);
+    }
+
+    const roots = takeDirtyRoots(session);
+    if (roots.length === 0) {
+      return;
+    }
+    const discoveredParagraphs = findParagraphs(roots);
+    const discoveredAnchors = new Set(
+      discoveredParagraphs.map((paragraph) => paragraph.anchor),
+    );
+    for (const [anchor, paragraph] of session.seenAnchors) {
+      if (
+        roots.some((root) => root.contains(anchor)) &&
+        !discoveredAnchors.has(anchor)
+      ) {
+        unregisterParagraph(session, paragraph);
+      }
+    }
+    for (const paragraph of discoveredParagraphs) {
+      const existing = session.seenAnchors.get(paragraph.anchor);
+      if (existing) {
+        if (!isSameTranslationInput(existing.input, paragraph.input)) {
+          removeLoading(existing);
+          removeError(existing);
+          existing.translationElement?.remove();
+          existing.translationElement = null;
+          existing.input = paragraph.input;
+          existing.status = "observed";
+          observeParagraph(session, existing);
+        }
+        continue;
+      }
+      if (registerParagraph(session, paragraph)) {
+        observeParagraph(session, paragraph);
+      }
+    }
+  }
+
+  function isSameTranslationInput(left, right) {
+    return (
+      left.text === right.text &&
+      left.originals.length === right.originals.length &&
+      left.originals.every(
+        (original, index) => original.text === right.originals[index].text,
+      )
+    );
+  }
+
+  function takeDirtyRoots(session) {
+    if (session.recomputeContentRoots) {
+      session.recomputeContentRoots = false;
+      session.dirtyRoots.clear();
+      session.contentRoots = findContentRoots();
+      return session.contentRoots;
+    }
+    session.contentRoots = session.contentRoots.filter(
+      (root) => root.isConnected,
+    );
+    const roots = [...session.dirtyRoots].filter((root) => root.isConnected);
+    session.dirtyRoots.clear();
+    if (roots.length > 0) {
+      return roots;
+    }
+    if (session.contentRoots.length === 0) {
+      session.contentRoots = findContentRoots();
+      return session.contentRoots;
+    }
+    return [];
+  }
+
+  function registerParagraph(session, paragraph) {
+    const target =
+      paragraph.container instanceof Element
+        ? paragraph.container
+        : paragraph.anchor.parentElement;
+    if (!target?.isConnected || session.seenAnchors.has(paragraph.anchor)) {
+      return false;
+    }
+    paragraph.status = "observed";
+    paragraph.visibilityTarget = target;
+    session.paragraphs.push(paragraph);
+    session.seenAnchors.set(paragraph.anchor, paragraph);
+    const group = session.groups.get(target) || [];
+    group.push(paragraph);
+    session.groups.set(target, group);
+    return true;
+  }
+
+  function unregisterParagraph(session, paragraph) {
+    removeLoading(paragraph);
+    removeError(paragraph);
+    paragraph.translationElement?.remove();
+    session.queued.delete(paragraph);
+    session.seenAnchors.delete(paragraph.anchor);
+    const index = session.paragraphs.indexOf(paragraph);
+    if (index >= 0) {
+      session.paragraphs.splice(index, 1);
+    }
+    const group = session.groups.get(paragraph.visibilityTarget);
+    if (group) {
+      const groupIndex = group.indexOf(paragraph);
+      if (groupIndex >= 0) {
+        group.splice(groupIndex, 1);
+      }
+      if (group.length === 0) {
+        session.groups.delete(paragraph.visibilityTarget);
+        session.observer?.unobserve(paragraph.visibilityTarget);
+      }
+    }
+    paragraph.status = "detached";
+  }
+
+  function observeParagraph(session, paragraph) {
+    const target = paragraph.visibilityTarget;
+    if (!target?.isConnected) {
+      return;
+    }
+    if (session.observer) {
+      session.observer.observe(target);
+    } else {
+      queueParagraphs(session, [paragraph]);
+    }
   }
 
   function queueParagraphs(session, paragraphs) {
@@ -328,13 +840,17 @@
     }
 
     for (const paragraphs of createParagraphBatches(batch)) {
+      const requestId = ++session.requestSequence;
       paragraphs.forEach((paragraph) => {
+        paragraph.requestId = requestId;
         paragraph.status = "translating";
         showLoading(paragraph, session.targetLanguage);
       });
-      void translateParagraphBatch(session, paragraphs).catch((error) => {
-        showBatchError(session, paragraphs, error);
-      });
+      void translateParagraphBatch(session, paragraphs, requestId).catch(
+        (error) => {
+          showBatchError(session, paragraphs, requestId, error);
+        },
+      );
     }
   }
 
@@ -363,7 +879,7 @@
     return batches;
   }
 
-  function showBatchError(session, paragraphs, error) {
+  function showBatchError(session, paragraphs, requestId, error) {
     if (
       activeTranslationSession !== session ||
       session.run !== translationRun
@@ -371,13 +887,19 @@
       return;
     }
     paragraphs.forEach((paragraph) => {
+      if (
+        paragraph.requestId !== requestId ||
+        paragraph.status !== "translating"
+      ) {
+        return;
+      }
       removeLoading(paragraph);
       paragraph.status = "error";
       showError(session, paragraph, error);
     });
   }
 
-  async function translateParagraphBatch(session, paragraphs) {
+  async function translateParagraphBatch(session, paragraphs, requestId) {
     const response = await chrome.runtime.sendMessage({
       type: "MT_TRANSLATE_BATCH",
       texts: paragraphs.map((paragraph) => paragraph.input.text),
@@ -403,6 +925,12 @@
 
     let insertedCount = 0;
     paragraphs.forEach((paragraph, index) => {
+      if (
+        paragraph.requestId !== requestId ||
+        paragraph.status !== "translating"
+      ) {
+        return;
+      }
       removeLoading(paragraph);
       const parent = paragraph.anchor.parentNode;
       if (!parent || !paragraph.anchor.isConnected) {
@@ -420,6 +948,7 @@
         paragraph.input.originals,
       );
       parent.insertBefore(translation, paragraph.anchor.nextSibling);
+      paragraph.translationElement = translation;
       paragraph.status = "translated";
       insertedCount += 1;
     });
@@ -481,19 +1010,26 @@
     paragraph.errorElement = null;
   }
 
-  function findParagraphs() {
+  function findContentRoots() {
     const forcedRoots = findSiteRuleRoots();
-    const readabilityRoot = forcedRoots.length ? null : findReadabilityRoot();
-    const roots = forcedRoots.length
-      ? forcedRoots
-      : readabilityRoot
-        ? [readabilityRoot]
-        : [document.body];
+    if (forcedRoots.length > 0) {
+      return forcedRoots;
+    }
+    const readabilityRoot = findReadabilityRoot();
+    if (!readabilityRoot) {
+      return [document.body];
+    }
+    return [
+      ...new Set([readabilityRoot, ...findAdditionalContentRoots()]),
+    ];
+  }
+
+  function findParagraphs(roots = findContentRoots()) {
     const paragraphs = [];
     const seen = new Set();
 
     for (const root of roots) {
-      if (root.closest?.(EXCLUDE_SELECTOR)) {
+      if (isInsideExcludedElement(root)) {
         continue;
       }
       for (const paragraph of walkParagraphs(root)) {
@@ -507,16 +1043,47 @@
     return paragraphs;
   }
 
-  function findSiteRuleRoots() {
+  function findSiteRuleRoots(scope = document) {
     if (location.hostname !== "github.com") {
       return [];
     }
 
-    return [...document.querySelectorAll(".markdown-body")].filter(
+    const roots = new Set();
+    try {
+      if (scope instanceof Element && scope.matches(GITHUB_CONTENT_SELECTOR)) {
+        roots.add(scope);
+      }
+      scope
+        .querySelectorAll(GITHUB_CONTENT_SELECTOR)
+        .forEach((element) => roots.add(element));
+    } catch {
+      return [];
+    }
+    return [...roots].filter(
       (element) =>
         element.getClientRects().length > 0 &&
         !isHidden(element) &&
-        !element.closest(EXCLUDE_SELECTOR),
+        !isInsideExcludedElement(element),
+    );
+  }
+
+  function findAdditionalContentRoots(scope = document) {
+    const roots = new Set();
+    try {
+      if (scope instanceof Element && scope.matches(ADDITIONAL_CONTENT_SELECTOR)) {
+        roots.add(scope);
+      }
+      scope
+        .querySelectorAll(ADDITIONAL_CONTENT_SELECTOR)
+        .forEach((element) => roots.add(element));
+    } catch {
+      return [];
+    }
+    return [...roots].filter(
+      (element) =>
+        element.getClientRects().length > 0 &&
+        !isHidden(element) &&
+        !isInsideExcludedElement(element),
     );
   }
 
@@ -720,7 +1287,7 @@
         return;
       }
       if (
-        element.matches(EXCLUDE_SELECTOR) ||
+        (isExcludedElement(element) && !stayOriginal) ||
         (rawIsBlock && stayOriginal)
       ) {
         if (
@@ -795,14 +1362,11 @@
   }
 
   function isRawBlockElement(element, style = getComputedStyle(element)) {
-    if (element.matches(ATOMIC_BLOCK_SELECTOR)) {
+    if (element.matches(EXTRA_INLINE_SELECTOR)) {
       return false;
     }
 
-    if (
-      (location.hostname === "github.com" && element.tagName === "BDI") ||
-      ["BR", "INPUT"].includes(element.tagName)
-    ) {
+    if (element.matches(EXTRA_BLOCK_SELECTOR) || element.tagName === "INPUT") {
       return true;
     }
     if (
@@ -810,9 +1374,10 @@
     ) {
       return false;
     }
-    return style.display
+    const isBlock = style.display
       ? !INLINE_DISPLAYS.has(style.display)
       : element.matches(FALLBACK_BLOCK_SELECTOR);
+    return isBlock && !element.matches(ATOMIC_BLOCK_SELECTOR);
   }
 
   function isBlockElement(
@@ -843,6 +1408,9 @@
 
     while (anchor.nextSibling) {
       const next = anchor.nextSibling;
+      if (isTranslatorNode(next)) {
+        break;
+      }
       if (
         next.nodeType === Node.ELEMENT_NODE &&
         isBlockElement(next)
@@ -904,6 +1472,14 @@
   function hasTinyRenderedDimension(element) {
     const { width, height } = element.getBoundingClientRect();
     return (width > 0 && width < 4) || (height > 0 && height < 4);
+  }
+
+  function isExcludedElement(element) {
+    return element.matches(EXCLUDE_SELECTOR);
+  }
+
+  function isInsideExcludedElement(element) {
+    return Boolean(element.closest?.(EXCLUDE_SELECTOR));
   }
 
   function isHidden(element, style = getComputedStyle(element)) {
